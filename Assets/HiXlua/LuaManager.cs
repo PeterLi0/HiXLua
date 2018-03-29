@@ -7,18 +7,18 @@ namespace HiXlua
     public class LuaManager : MonoBehaviour
     {
         public LuaEnv LuaEnv { get; private set; }
-        public LuaManager Instance;
+        public static LuaManager Instance;
 
         private static bool isLuaEvnExist = false;
         void Awake()
         {
             Instance = this;
+            LuaEnv = new LuaEnv();
         }
 
         // Use this for initialization
         void Start()
         {
-            LuaEnv = new LuaEnv();
             if (isLuaEvnExist)
             {
                 Destroy(gameObject);
