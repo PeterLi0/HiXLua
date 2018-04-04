@@ -12,13 +12,6 @@ namespace HiXlua
         private static bool isLuaEvnExist = false;
         void Awake()
         {
-            Instance = this;
-            LuaEnv = new LuaEnv();
-        }
-
-        // Use this for initialization
-        void Start()
-        {
             if (isLuaEvnExist)
             {
                 Destroy(gameObject);
@@ -27,6 +20,8 @@ namespace HiXlua
             {
                 isLuaEvnExist = true;
                 DontDestroyOnLoad(gameObject);
+                Instance = this;
+                LuaEnv = new LuaEnv();
             }
         }
 
@@ -35,18 +30,18 @@ namespace HiXlua
         {
             LuaEnv.Tick();
         }
-        Dictionary<string, byte[]> luaFileNameAndBytesDic = new Dictionary<string, byte[]>();
+        private readonly Dictionary<string, byte[]> _luaFileNameAndBytesDic = new Dictionary<string, byte[]>();
         public void AddLuaFileBytes(string luaFileName, byte[] bytes)
         {
-            if (luaFileNameAndBytesDic.ContainsKey(luaFileName))
+            if (_luaFileNameAndBytesDic.ContainsKey(luaFileName))
                 Debug.LogError("already contain this lua file");
-            luaFileNameAndBytesDic.Add(luaFileName, bytes);
+            _luaFileNameAndBytesDic.Add(luaFileName, bytes);
 
-            LuaEnv.AddLoader((ref string luaFileName_FromXLua) =>
+            LuaEnv.AddLoader((ref string luaFileNameFromXLua) =>
             {
-                if (!luaFileNameAndBytesDic.ContainsKey(luaFileName_FromXLua))
-                    Debug.LogError("you havent add this lua file to Dic: " + luaFileName_FromXLua);
-                return luaFileNameAndBytesDic[luaFileName_FromXLua];
+                if (!_luaFileNameAndBytesDic.ContainsKey(luaFileNameFromXLua))
+                    Debug.LogError("you havent add this lua file to Dic: " + luaFileNameFromXLua);
+                return _luaFileNameAndBytesDic[luaFileNameFromXLua];
             });
         }
     }

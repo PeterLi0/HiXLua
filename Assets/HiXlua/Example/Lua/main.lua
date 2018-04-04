@@ -1,3 +1,3 @@
-print("hello world")
+print("main.lua")
 require("ui")
 require("score")
