@@ -47,6 +47,14 @@ namespace HiXlua
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        [CSharpCallLua]
+        public delegate void LuaFunction_int2(int value1, int value2);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="value"></param>
         [CSharpCallLua]
         public delegate void LuaFunction_float(float value);
@@ -77,7 +85,7 @@ namespace HiXlua
         /// <summary>
         /// Lua文件名和对应的二进制
         /// </summary>
-        private readonly Dictionary<string, byte[]> luaFileNameAndBytes = new Dictionary<string, byte[]>();
+        private Dictionary<string, byte[]> luaFileNameAndBytes = new Dictionary<string, byte[]>();
 
         /// <summary>
         /// 初始化
@@ -131,6 +139,23 @@ namespace HiXlua
             if (luaLaterUpdate != null)
             {
                 luaLaterUpdate(Time.deltaTime);
+            }
+        }
+
+        /// <summary>
+        /// 销毁
+        /// </summary>
+        public void Destory()
+        {
+            luaFileNameAndBytes.Clear();
+            luaFileNameAndBytes = null;
+            luaUpdate = null;
+            luaFixedUpdate = null;
+            luaLaterUpdate = null;
+            if (LuaEnv != null)
+            {
+                LuaEnv.Dispose();
+                LuaEnv = null;
             }
         }
 
