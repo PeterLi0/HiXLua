@@ -12,13 +12,13 @@ public class Example : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        AddLuaFile();
+        InitLuaFile();
         LuaManager.Instance.LuaEnv.DoString("require'main'");
         LuaManager.Instance.BindLuaFunction();
 
     }
 
-    void AddLuaFile()
+    void InitLuaFile()
     {
         var mainLua = GetBytes("main.lua");
         LuaManager.Instance.AddLuaFileBytes("main", mainLua);
