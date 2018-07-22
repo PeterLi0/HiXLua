@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using HiXlua;
 using System.IO;
-using HiXlua;
 using UnityEngine;
 using XLua;
 
