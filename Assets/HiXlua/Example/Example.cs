@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using HiXlua;
 using UnityEngine;
+using XLua;
 
 public class Example : MonoBehaviour
 {
@@ -11,16 +12,25 @@ public class Example : MonoBehaviour
         new GameObject("LuaManager").AddComponent<LuaManager>();
     }
 
+    [CSharpCallLua]
+    public delegate void LuaFunctionCallBack();
+
+
+    public LuaFunctionCallBack luaUpdate;
     // Use this for initialization
     void Start()
     {
         AddLuaFile();
         LuaManager.Instance.LuaEnv.DoString("require'main'");
+
+
+        luaUpdate = LuaManager.Instance.LuaEnv.Global.Get<LuaFunctionCallBack>("Update");
     }
 
     // Update is called once per frame
     void Update()
     {
+        luaUpdate();
     }
 
 

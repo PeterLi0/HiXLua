@@ -9,6 +9,7 @@ namespace HiXlua
         public LuaEnv LuaEnv { get; private set; }
         public static LuaManager Instance;
 
+
         private static bool isLuaEvnExist = false;
         void Awake()
         {
@@ -23,12 +24,15 @@ namespace HiXlua
                 Instance = this;
                 LuaEnv = new LuaEnv();
             }
+
+           
         }
 
         // Update is called once per frame
         void Update()
         {
             LuaEnv.Tick();
+          
         }
         private readonly Dictionary<string, byte[]> _luaFileNameAndBytesDic = new Dictionary<string, byte[]>();
         public void AddLuaFileBytes(string luaFileName, byte[] bytes)
@@ -44,5 +48,7 @@ namespace HiXlua
                 return _luaFileNameAndBytesDic[luaFileNameFromXLua];
             });
         }
+
+
     }
 }
