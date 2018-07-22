@@ -2,6 +2,6 @@ print("main.lua")
 require("ui")
 require("score")
 
-function Update()
-print("update")
+function Update(time)
+print("update"..time)
 end

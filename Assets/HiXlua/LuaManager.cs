@@ -13,8 +13,14 @@ namespace HiXlua
 {
     public class LuaManager : MonoBehaviour
     {
+        /// <summary>
+        /// 单例
+        /// </summary>
         public static LuaManager Instance;
 
+        /// <summary>
+        /// Lua环境
+        /// </summary>
         public LuaEnv LuaEnv { get; private set; }
 
         /// <summary>
@@ -26,21 +32,29 @@ namespace HiXlua
         /// 
         /// </summary>
         [CSharpCallLua]
-        private delegate void LuaFunction_NoParam();
+        public delegate void LuaFunction_NoParam();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         [CSharpCallLua]
-        private delegate void LuaFunction_int(int value);
+        public delegate void LuaFunction_int(int value);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>
         [CSharpCallLua]
-        private delegate void LuaFunction_float(float value);
+        public delegate void LuaFunction_float(float value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        [CSharpCallLua]
+        public delegate void LuaFunction_string(string value);
+        //todo 其他类型自己扩展
 
         /// <summary>
         /// 绑定Update,附带参数deltaTime
@@ -57,6 +71,11 @@ namespace HiXlua
         /// </summary>
         private LuaFunction_float luaLaterUpdate;
 
+        /// <summary>
+        /// Lua文件名和对应的二进制
+        /// </summary>
+        private readonly Dictionary<string, byte[]> luaFileNameAndBytes = new Dictionary<string, byte[]>();
+
 
         void Awake()
         {
@@ -70,7 +89,6 @@ namespace HiXlua
                 DontDestroyOnLoad(gameObject);
                 Instance = this;
                 LuaEnv = new LuaEnv();
-                InitDelegate();
                 InitLoader();
             }
         }
@@ -84,10 +102,11 @@ namespace HiXlua
         }
 
         /// <summary>
-        /// lua文件名和对应的二进制文件
-        /// 
+        /// lua文件名和对应的二进制文件,当加载关联lua文件时使用
+        /// lua文件一般不会以源文件存在发布的项目中
+        /// 可以在调用该接口前执行lua文件解密,然后传入二进制文件
         /// </summary>
-        private readonly Dictionary<string, byte[]> luaFileNameAndBytes = new Dictionary<string, byte[]>();
+
         public void AddLuaFileBytes(string luaFileName, byte[] bytes)
         {
             if (luaFileNameAndBytes.ContainsKey(luaFileName))
@@ -95,21 +114,23 @@ namespace HiXlua
             luaFileNameAndBytes.Add(luaFileName, bytes);
         }
 
-
+        /// <summary>
+        /// lua虚拟机加载相关联的lua文件
+        /// </summary>
         void InitLoader()
         {
-            LuaEnv.AddLoader((ref string luaFileNameFromXLua) =>
+            LuaEnv.AddLoader((ref string luaFileNameFromXLuaPopOut) =>
             {
-                if (!luaFileNameAndBytes.ContainsKey(luaFileNameFromXLua))
-                    Debug.LogError("you havent add this lua file to Dic: " + luaFileNameFromXLua);
-                return luaFileNameAndBytes[luaFileNameFromXLua];
+                if (!luaFileNameAndBytes.ContainsKey(luaFileNameFromXLuaPopOut))
+                    Debug.LogError("you havent add this lua file to Dic: " + luaFileNameFromXLuaPopOut);
+                return luaFileNameAndBytes[luaFileNameFromXLuaPopOut];
             });
         }
 
         /// <summary>
-        /// 初始化绑定lua方法
+        /// 绑定lua方法
         /// </summary>
-        private void InitDelegate()
+        public void BindLuaFunction()
         {
             luaUpdate = LuaEnv.Global.Get<LuaFunction_float>("Update");
             luaFixedUpdate = LuaEnv.Global.Get<LuaFunction_float>("FixedUpdate");
