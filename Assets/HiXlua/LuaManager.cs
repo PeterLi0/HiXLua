@@ -11,6 +11,9 @@ using XLua;
 
 namespace HiXlua
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class LuaManager : MonoBehaviour
     {
         /// <summary>
@@ -76,7 +79,9 @@ namespace HiXlua
         /// </summary>
         private readonly Dictionary<string, byte[]> luaFileNameAndBytes = new Dictionary<string, byte[]>();
 
-
+        /// <summary>
+        /// 初始化
+        /// </summary>
         void Awake()
         {
             if (isLuaEvnExist)
@@ -93,12 +98,40 @@ namespace HiXlua
             }
         }
 
+        /// <summary>
+        /// 帧更新
+        /// </summary>
         // Update is called once per frame
         void Update()
         {
             AssertThat.IsNotNull(LuaEnv, "Lua env is null");
             LuaEnv.Tick();
-            UpdateLuaFunction();
+            if (luaUpdate != null)
+            {
+                luaUpdate(Time.deltaTime);
+            }
+        }
+
+        /// <summary>
+        /// 物理帧更新
+        /// </summary>
+        void FixedUpdate()
+        {
+            if (luaFixedUpdate != null)
+            {
+                luaFixedUpdate(Time.fixedDeltaTime);
+            }
+        }
+
+        /// <summary>
+        /// 延迟更新
+        /// </summary>
+        void LaterUpdate()
+        {
+            if (luaLaterUpdate != null)
+            {
+                luaLaterUpdate(Time.deltaTime);
+            }
         }
 
         /// <summary>
@@ -110,7 +143,7 @@ namespace HiXlua
         public void AddLuaFileBytes(string luaFileName, byte[] bytes)
         {
             if (luaFileNameAndBytes.ContainsKey(luaFileName))
-                Debug.LogError("already contain this lua file");
+                AssertThat.Fail("already contain this lua file");
             luaFileNameAndBytes.Add(luaFileName, bytes);
         }
 
@@ -122,7 +155,7 @@ namespace HiXlua
             LuaEnv.AddLoader((ref string luaFileNameFromXLuaPopOut) =>
             {
                 if (!luaFileNameAndBytes.ContainsKey(luaFileNameFromXLuaPopOut))
-                    Debug.LogError("you havent add this lua file to Dic: " + luaFileNameFromXLuaPopOut);
+                    AssertThat.Fail("you havent add this lua file to Dic: " + luaFileNameFromXLuaPopOut);
                 return luaFileNameAndBytes[luaFileNameFromXLuaPopOut];
             });
         }
@@ -135,25 +168,6 @@ namespace HiXlua
             luaUpdate = LuaEnv.Global.Get<LuaFunction_float>("Update");
             luaFixedUpdate = LuaEnv.Global.Get<LuaFunction_float>("FixedUpdate");
             luaLaterUpdate = LuaEnv.Global.Get<LuaFunction_float>("LaterUpdate");
-        }
-
-        /// <summary>
-        /// 更新lua帧
-        /// </summary>
-        private void UpdateLuaFunction()
-        {
-            if (luaUpdate != null)
-            {
-                luaUpdate(Time.deltaTime);
-            }
-            if (luaFixedUpdate != null)
-            {
-                luaFixedUpdate(Time.fixedDeltaTime);
-            }
-            if (luaLaterUpdate != null)
-            {
-                luaLaterUpdate(Time.deltaTime);
-            }
         }
     }
 }
