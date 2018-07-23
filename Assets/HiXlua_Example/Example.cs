@@ -1,4 +1,11 @@
-﻿using HiXlua;
+﻿/***************************************************************
+ * Description:
+ *
+ * Documents: https://github.com/hiramtan/HiXLua
+ * Author: hiramtan@live.com
+***************************************************************/
+
+using HiXlua;
 using System.IO;
 using UnityEngine;
 

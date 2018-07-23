@@ -1,6 +1,7 @@
 ﻿/***************************************************************
- * Description: Lua管理类
- * 
+ * Description: lua管理类
+ *
+ * Documents: https://github.com/hiramtan/HiXLua
  * Author: hiramtan@live.com
 ***************************************************************/
 
