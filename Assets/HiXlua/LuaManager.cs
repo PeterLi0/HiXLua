@@ -81,7 +81,7 @@ namespace HiXlua
         /// <summary>
         ///  绑定LaterUpdate,附带参数deltaTime
         /// </summary>
-        private LuaFunction_float luaLaterUpdate;
+        private LuaFunction_float luaLateUpdate;
 
         /// <summary>
         /// Lua文件名和对应的二进制
@@ -135,11 +135,11 @@ namespace HiXlua
         /// <summary>
         /// 延迟更新
         /// </summary>
-        void LaterUpdate()
+        void LateUpdate()
         {
-            if (luaLaterUpdate != null)
+            if (luaLateUpdate != null)
             {
-                luaLaterUpdate(Time.deltaTime);
+                luaLateUpdate(Time.deltaTime);
             }
         }
 
@@ -152,7 +152,7 @@ namespace HiXlua
             luaFileNameAndBytes = null;
             luaUpdate = null;
             luaFixedUpdate = null;
-            luaLaterUpdate = null;
+            luaLateUpdate = null;
             if (LuaEnv != null)
             {
                 LuaEnv.Dispose();
@@ -193,7 +193,7 @@ namespace HiXlua
         {
             luaUpdate = LuaEnv.Global.Get<LuaFunction_float>("Update");
             luaFixedUpdate = LuaEnv.Global.Get<LuaFunction_float>("FixedUpdate");
-            luaLaterUpdate = LuaEnv.Global.Get<LuaFunction_float>("LaterUpdate");
+            luaLateUpdate = LuaEnv.Global.Get<LuaFunction_float>("LateUpdate");
         }
     }
 }
