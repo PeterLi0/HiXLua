@@ -22,15 +22,15 @@ public class Example : MonoBehaviour
         InitLuaFile();
         LuaManager.Instance.LuaEnv.DoString("require'Main'");
         LuaManager.Instance.BindLuaFunction();
-
     }
+
 
     void InitLuaFile()
     {
         var mainLua = GetBytes("Main.lua");
         LuaManager.Instance.AddLuaFileBytes("Main", mainLua);
-        //var uiLua = GetBytes("ui.lua");
-        //LuaManager.Instance.AddLuaFileBytes("ui", uiLua);
+        var joystick = GetBytes("Joystick.lua");
+        LuaManager.Instance.AddLuaFileBytes("Joystick", joystick);
         //var scoreLua = GetBytes("score.lua");
         //LuaManager.Instance.AddLuaFileBytes("score", scoreLua);
     }
