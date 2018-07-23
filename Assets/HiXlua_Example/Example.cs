@@ -35,7 +35,7 @@ public class Example : MonoBehaviour
     /// <returns></returns>
     byte[] GetBytes(string name)
     {
-        string path = Application.dataPath + "/HiXLua/Example/Lua/" + name;
+        string path = Application.dataPath + "/HiXLua_Example/Lua/" + name;
         return File.ReadAllBytes(path);
     }
 }

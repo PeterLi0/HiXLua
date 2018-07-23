@@ -214,6 +214,11 @@
 描述：
     
     克隆一个c#结构体
+	
+#### xlua.private_accessible(class)		
+描述：
+    
+    让一个类的私有字段，属性，方法等可用
 
 #### cast函数
 
@@ -282,3 +287,17 @@ C#侧指明从Lua侧输入指定类型对象，Lua侧为该类型实例的userda
 
 成员方法以及delegate都是对应lua侧的函数。
 C#侧的普通参数以及引用参数，对应lua侧函数参数；C#侧的返回值对应于Lua的第一个返回值；引用参数和out参数则按序对应于Lua的第2到第N个参数。
+
+## 宏
+
+#### HOTFIX_ENABLE
+
+打开hotfix功能。
+
+#### NOT_GEN_WARNING
+
+反射时打印warning。
+
+#### GEN_CODE_MINIMIZE
+
+以偏向减少代码段的方式生成代码。
