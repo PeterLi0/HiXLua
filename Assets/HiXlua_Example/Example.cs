@@ -31,8 +31,6 @@ public class Example : MonoBehaviour
         LuaManager.Instance.AddLuaFileBytes("Main", mainLua);
         var joystick = GetBytes("Joystick.lua");
         LuaManager.Instance.AddLuaFileBytes("Joystick", joystick);
-        //var scoreLua = GetBytes("score.lua");
-        //LuaManager.Instance.AddLuaFileBytes("score", scoreLua);
     }
 
     /// <summary>
