@@ -6,7 +6,6 @@
 ***************************************************************/
 
 using HiXlua;
-using System.IO;
 using UnityEngine;
 
 public class Example : MonoBehaviour
@@ -19,14 +18,8 @@ public class Example : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        InitLuaFile();
+        LuaManager.Instance.InitLuaFile(Application.dataPath + "/HiXlua_Example/Lua");
         LuaManager.Instance.LuaEnv.DoString("require'Main'");
         LuaManager.Instance.BindLuaFunction();
-    }
-
-
-    void InitLuaFile()
-    {
-      LuaManager.Instance.InitLuaFile(Application.dataPath+ "/HiXlua_Example/Lua");
     }
 }
