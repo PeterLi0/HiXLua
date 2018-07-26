@@ -48,14 +48,6 @@ namespace HiXlua
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value1"></param>
-        /// <param name="value2"></param>
-        [CSharpCallLua]
-        public delegate void LuaFunction_int2(int value1, int value2);
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="value"></param>
         [CSharpCallLua]
         public delegate void LuaFunction_float(float value);
@@ -66,6 +58,14 @@ namespace HiXlua
         /// <param name="value"></param>
         [CSharpCallLua]
         public delegate void LuaFunction_string(string value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        [CSharpCallLua]
+        public delegate void LuaFunction_int2(int value1, int value2);
         //todo 其他类型自己扩展
 
         /// <summary>
