@@ -66,7 +66,8 @@ namespace HiXlua
         /// <param name="value2"></param>
         [CSharpCallLua]
         public delegate void LuaFunction_int2(int value1, int value2);
-        //todo 其他类型自己扩展
+        //其他类型扩展
+        //...
 
         /// <summary>
         /// 绑定Update,附带参数deltaTime
