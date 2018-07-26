@@ -8,7 +8,7 @@ LuaStart()
 
 
 function Update(time)
-    --print("update"..time)
+    print("update"..time)
 end
 
 function FixedUpdate(time)

@@ -27,20 +27,6 @@ public class Example : MonoBehaviour
 
     void InitLuaFile()
     {
-        var mainLua = GetBytes("Main.lua");
-        LuaManager.Instance.AddLuaFileBytes("Main", mainLua);
-        var joystick = GetBytes("Joystick.lua");
-        LuaManager.Instance.AddLuaFileBytes("Joystick", joystick);
-    }
-
-    /// <summary>
-    /// you can read lua bytes from local or web
-    /// or you can do some encryption or decryption
-    /// </summary>
-    /// <returns></returns>
-    byte[] GetBytes(string name)
-    {
-        string path = Application.dataPath + "/HiXLua_Example/Lua/" + name;
-        return File.ReadAllBytes(path);
+      LuaManager.Instance.InitLuaFile(Application.dataPath+ "/HiXlua_Example/Lua");
     }
 }
