@@ -10,16 +10,17 @@ using UnityEngine;
 
 public class Example : MonoBehaviour
 {
-    void Awake()
-    {
-        new GameObject("LuaManager").AddComponent<LuaManager>();
-    }
-
     // Use this for initialization
     void Start()
     {
+        new GameObject("LuaManager").AddComponent<LuaManager>();
         LuaManager.Instance.InitLuaFile(Application.dataPath + "/HiXlua_Example/Lua");
         LuaManager.Instance.LuaEnv.DoString("require'Main'");
         LuaManager.Instance.BindLuaFunction();
+    }
+
+    void OnDestory()
+    {
+        LuaManager.Instance.Destory();
     }
 }

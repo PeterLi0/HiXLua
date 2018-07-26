@@ -35,61 +35,24 @@ namespace HiXlua
         private static bool isLuaEvnExist = false;
 
         /// <summary>
-        /// 
-        /// </summary>
-        [CSharpCallLua]
-        public delegate void LuaFunction_NoParam();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        [CSharpCallLua]
-        public delegate void LuaFunction_int(int value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        [CSharpCallLua]
-        public delegate void LuaFunction_float(float value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value"></param>
-        [CSharpCallLua]
-        public delegate void LuaFunction_string(string value);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="value1"></param>
-        /// <param name="value2"></param>
-        [CSharpCallLua]
-        public delegate void LuaFunction_int2(int value1, int value2);
-        //其他类型扩展
-        //...
-
-        /// <summary>
         /// 绑定Update,附带参数deltaTime
         /// </summary>
-        private LuaFunction_float luaUpdate;
+        private LuaFunctionDelegateDefine.LuaFunction_float luaUpdate;
 
         /// <summary>
         /// 绑定FixedUpdate,附带参数fixedDeltaTime
         /// </summary>
-        private LuaFunction_float luaFixedUpdate;
+        private LuaFunctionDelegateDefine.LuaFunction_float luaFixedUpdate;
 
         /// <summary>
         ///  绑定LaterUpdate,附带参数deltaTime
         /// </summary>
-        private LuaFunction_float luaLateUpdate;
+        private LuaFunctionDelegateDefine.LuaFunction_float luaLateUpdate;
 
         /// <summary>
         /// 缓存lua代码（已解密）
         /// </summary>
-        public Dictionary<string, byte[]> luaFiles = new Dictionary<string, byte[]>();
+        private Dictionary<string, byte[]> luaFiles = new Dictionary<string, byte[]>();
 
         /// <summary>
         /// 初始化
@@ -179,9 +142,9 @@ namespace HiXlua
         /// </summary>
         public void BindLuaFunction()
         {
-            luaUpdate = LuaEnv.Global.Get<LuaFunction_float>("Update");
-            luaFixedUpdate = LuaEnv.Global.Get<LuaFunction_float>("FixedUpdate");
-            luaLateUpdate = LuaEnv.Global.Get<LuaFunction_float>("LateUpdate");
+            luaUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("Update");
+            luaFixedUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("FixedUpdate");
+            luaLateUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("LateUpdate");
         }
 
         /// <summary>
@@ -190,7 +153,7 @@ namespace HiXlua
         /// <param name="path"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public byte[] GetLuaFile(string name)
+        private byte[] GetLuaFile(string name)
         {
             if (luaFiles.ContainsKey(name))
                 return luaFiles[name];
