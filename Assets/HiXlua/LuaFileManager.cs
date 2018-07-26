@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 /// <summary>
 /// Lua源码管理
@@ -35,6 +36,7 @@ public class LuaFileManager
     /// 此接口是lua文件维护的最基础接口
     /// 1.如果用户主动下载加密的lua文件，解密，然后调用该接口
     /// 2.如果放在其他文件中的lua（比如lua在asserbundle中），可以读取后调用该接口
+    /// 3...其他获取途径，总之传入lua文件名和lua源码
     /// 3.InitLuaFile（）最终也会调用该接口
     /// </summary>
     /// <param name="name"></param>
@@ -59,6 +61,17 @@ public class LuaFileManager
     /// <param name="path"></param>
     public void InitLuaFile(string path)
     {
-
+        var files = Directory.GetFiles(path);
+        foreach (var file in files)
+        {
+            var fileName = Path.GetFileName(file);
+            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                var bytes = new byte[fs.Length];
+                fs.Read(bytes, 0, (int)fs.Length);
+                fs.Close();
+                InitLuaFile(fileName, bytes);
+            }
+        }
     }
 }
