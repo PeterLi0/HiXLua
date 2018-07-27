@@ -16,13 +16,13 @@ public class Example : MonoBehaviour
         Release //发布模式
     }
 
-    public Mode mode = Mode.Editor;
+    public Mode CurrentMode = Mode.Editor;
 
     // Use this for initialization
     void Start()
     {
         new GameObject("LuaManager").AddComponent<LuaManager>();
-        if (mode == Mode.Editor)
+        if (CurrentMode == Mode.Editor)
             LuaManager.Instance.InitLuaFile(Application.dataPath + "/HiXlua_Example/Lua");
         else
             InitLuaFileRealeaseMode();

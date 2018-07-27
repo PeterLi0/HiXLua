@@ -35,24 +35,29 @@ namespace HiXlua
         private static bool isLuaEvnExist = false;
 
         /// <summary>
+        /// 绑定初始化方法
+        /// </summary>
+        private LuaFunction_NoParam luaStart;
+
+        /// <summary>
         /// 绑定Update,附带参数deltaTime
         /// </summary>
-        private LuaFunctionDelegateDefine.LuaFunction_float luaUpdate;
+        private LuaFunction_float luaUpdate;
 
         /// <summary>
         /// 绑定FixedUpdate,附带参数fixedDeltaTime
         /// </summary>
-        private LuaFunctionDelegateDefine.LuaFunction_float luaFixedUpdate;
+        private LuaFunction_float luaFixedUpdate;
 
         /// <summary>
         ///  绑定LaterUpdate,附带参数deltaTime
         /// </summary>
-        private LuaFunctionDelegateDefine.LuaFunction_float luaLateUpdate;
+        private LuaFunction_float luaLateUpdate;
 
         /// <summary>
         /// lua销毁时
         /// </summary>
-        private LuaFunctionDelegateDefine.LuaFunction_NoParam luaDestory;
+        private LuaFunction_NoParam luaDestory;
 
         /// <summary>
         /// 缓存lua代码（已解密）
@@ -75,6 +80,14 @@ namespace HiXlua
                 Instance = this;
                 LuaEnv = new LuaEnv();
                 InitLoader();
+            }
+        }
+
+        void Start()
+        {
+            if (luaStart != null)
+            {
+                luaStart();
             }
         }
 
@@ -138,10 +151,11 @@ namespace HiXlua
         /// </summary>
         public void BindLuaFunction()
         {
-            luaUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("Update");
-            luaFixedUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("FixedUpdate");
-            luaLateUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("LateUpdate");
-            luaDestory = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_NoParam>("OnDestory");
+            luaStart = LuaEnv.Global.Get<LuaFunction_NoParam>("Start");
+            luaUpdate = LuaEnv.Global.Get<LuaFunction_float>("Update");
+            luaFixedUpdate = LuaEnv.Global.Get<LuaFunction_float>("FixedUpdate");
+            luaLateUpdate = LuaEnv.Global.Get<LuaFunction_float>("LateUpdate");
+            luaDestory = LuaEnv.Global.Get<LuaFunction_NoParam>("OnDestory");
         }
 
         /// <summary>
