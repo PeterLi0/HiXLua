@@ -17,7 +17,7 @@ namespace HiXlua
     /// <summary>
     /// 
     /// </summary>
-    public class LuaManager : MonoBehaviour
+    public class LuaManager : MonoBehaviour, IDisposable
     {
         /// <summary>
         /// 单例
@@ -48,6 +48,11 @@ namespace HiXlua
         ///  绑定LaterUpdate,附带参数deltaTime
         /// </summary>
         private LuaFunctionDelegateDefine.LuaFunction_float luaLateUpdate;
+
+        /// <summary>
+        /// lua销毁时
+        /// </summary>
+        private LuaFunctionDelegateDefine.LuaFunction_NoParam luaDestory;
 
         /// <summary>
         /// 缓存lua代码（已解密）
@@ -110,20 +115,11 @@ namespace HiXlua
         }
 
         /// <summary>
-        /// 销毁
+        /// luamanager 销毁时
         /// </summary>
-        public void Destory()
+        void OnDestory()
         {
-            luaFiles.Clear();
-            luaFiles = null;
-            luaUpdate = null;
-            luaFixedUpdate = null;
-            luaLateUpdate = null;
-            if (LuaEnv != null)
-            {
-                LuaEnv.Dispose();
-                LuaEnv = null;
-            }
+            Dispose();
         }
 
         /// <summary>
@@ -145,6 +141,7 @@ namespace HiXlua
             luaUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("Update");
             luaFixedUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("FixedUpdate");
             luaLateUpdate = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_float>("LateUpdate");
+            luaDestory = LuaEnv.Global.Get<LuaFunctionDelegateDefine.LuaFunction_NoParam>("OnDestory");
         }
 
         /// <summary>
@@ -204,6 +201,23 @@ namespace HiXlua
                     fs.Close();
                     InitLuaFile(fileName, bytes);
                 }
+            }
+        }
+
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            luaDestory();
+            luaFiles.Clear();
+            luaFiles = null;
+            luaUpdate = null;
+            luaFixedUpdate = null;
+            luaLateUpdate = null;
+            luaDestory = null;
+            if (LuaEnv != null)
+            {
+                LuaEnv.Dispose();
+                LuaEnv = null;
             }
         }
     }
