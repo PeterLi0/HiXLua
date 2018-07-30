@@ -33,7 +33,6 @@ public class Example : MonoBehaviour
     void InitLuaFileRealeaseMode()
     {
         //1.get lua bytes
-        //2.add to lua dictionary
-        //LuaManager.Instance.InitLuaFile("luaName",luaBytes);
+        //2.add to lua dictionary：LuaManager.Instance.InitLuaFile("luaName",luaBytes);
     }
 }
