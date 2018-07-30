@@ -4,9 +4,12 @@ local runnerGo = CS.UnityEngine.GameObject("Coroutine_Runner")
 CS.UnityEngine.Object.DontDestroyOnLoad(runnerGo)
 local runner = runnerGo:AddComponent(typeof(CS.Coroutine_Runner))
 
+
 local function async_yield_return(to_yield,cb)
     runner:YieldAndCallback(to_yield,cb)
 end
+
+
 
 
 local yield_return = util.async_to_sync(async_yield_return)
