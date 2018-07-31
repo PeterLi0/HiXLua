@@ -47,10 +47,5 @@ namespace HiXlua
         /// 绑定lua方法
         /// </summary>
         void BindLuaFunction();
-
-        /// <summary>
-        /// 销毁
-        /// </summary>
-        void Destory();
     }
 }

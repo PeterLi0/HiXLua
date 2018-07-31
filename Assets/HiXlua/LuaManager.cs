@@ -17,7 +17,7 @@ namespace HiXlua
     /// <summary>
     /// 
     /// </summary>
-    public class LuaManager : MonoBehaviour, IDisposable
+    public class LuaManager : MonoBehaviour, ILuaManager,IDisposable
     {
         /// <summary>
         /// 单例
