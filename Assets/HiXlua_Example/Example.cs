@@ -34,5 +34,7 @@ public class Example : MonoBehaviour
     {
         //1.get lua bytes
         //2.add to lua dictionary：LuaManager.Instance.InitLuaFile("luaName",luaBytes);
+
+        //for example, user will download newest lua file from server, and do decription, then add this file bytes data to dictionary.
     }
 }
